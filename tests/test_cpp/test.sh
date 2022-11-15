@@ -10,7 +10,7 @@ check_output() {
     fi
 }
 
-verificarlo-c++ --std=c++11 test.cpp -o test --verbose
+verificarlo-c++ --std=c++11 test.cpp -o test --verbose -lm --show-cmd
 check_output
 
 export VFC_BACKENDS="libinterflop_ieee.so --debug"
