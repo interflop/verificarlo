@@ -30,9 +30,9 @@ import tempfile
 PACKAGE_STRING = "@PACKAGE_STRING@"
 LIBDIR = "%LIBDIR%"
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
-libinterflop_stdlib = "@INTERFLOP_STDLIB_PATH@"
-libinterflop_stdlib_include = os.path.join(libinterflop_stdlib, 'include')
-libinterflop_stdlib_lib = os.path.join(libinterflop_stdlib, 'lib')
+libinterflop_stdlib = "@INTERFLOP_PREFIX@"
+libinterflop_stdlib_include = "@INTERFLOP_INCLUDEDIR@"
+libinterflop_stdlib_lib = "@INTERFLOP_LIBDIR@"
 libvfcinstrument = LIBDIR + '/libvfcinstrument.so'
 libvfcfuncinstrument = LIBDIR + '/libvfcfuncinstrument.so'
 mcalib_options = "-rpath {0} -L {0}".format(LIBDIR)
