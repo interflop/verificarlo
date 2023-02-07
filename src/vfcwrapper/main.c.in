@@ -52,7 +52,7 @@
 #define CALL_OP_SIZE 4
 #endif
 
-#if LLVM_MAJOR_VERSION <= 7
+#if @LLVM_VERSION_MAJOR@ <= 7
 #define ADDR2LINE_BIN "addr2line"
 #define ADDR2LINE_PATH "/usr/bin/addr2line"
 #else
