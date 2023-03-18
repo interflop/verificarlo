@@ -58,11 +58,10 @@ function install_backend() {
     Cd ${ROOT}
 }
 
-rm -rf src/interflop-stdlib
-rm -rf src/backends/interflop-backend-*
-git submodule update --init --recursive
+# rm -rf src/interflop-stdlib
+# rm -rf src/backends/interflop-backend-*
+# git submodule update --init --recursive
 
-ls -lR
 install_stdlib
 
 backends=(bitmask cancellation ieee mcaint mcaquad vprec)
