@@ -46,7 +46,7 @@ function install_stdlib() {
     Configure --enable-warnings
     Make
     MakeInstall
-    Cd ${PWD}
+    Cd ${ROOT}
 }
 
 function install_backend() {
@@ -55,13 +55,14 @@ function install_backend() {
     Configure --enable-warnings
     Make
     MakeInstall
-    Cd ${PWD}
+    Cd ${ROOT}
 }
 
 rm -rf src/interflop-stdlib
 rm -rf src/backends/interflop-backend-*
 git submodule update --init --recursive
 
+tree
 install_stdlib
 
 backends=(bitmask cancellation ieee mcaint mcaquad vprec)
