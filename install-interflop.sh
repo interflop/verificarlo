@@ -41,7 +41,6 @@ function MakeInstall() {
 }
 
 function install_stdlib() {
-    Clone https://github.com/${REPO}/interflop-stdlib
     Cd src/interflop-stdlib
     Autogen
     Configure --enable-warnings
@@ -51,7 +50,6 @@ function install_stdlib() {
 }
 
 function install_backend() {
-    Clone https://github.com/${REPO}/interflop-backend-$1
     Cd src/backends/interflop-backend-$1
     Autogen
     Configure --enable-warnings
@@ -64,6 +62,7 @@ rm -rf src/interflop-stdlib
 rm -rf src/backends/interflop-backend-*
 git submodule update --init --recursive
 
+pwd
 install_stdlib
 
 backends=(bitmask cancellation ieee mcaint mcaquad vprec)
