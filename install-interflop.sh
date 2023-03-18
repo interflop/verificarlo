@@ -1,6 +1,7 @@
 #!/bin/bash
 
-REPO=yohanchatelain
+REPO=interflop
+ROOT=$PWD
 
 function check() {
     if [[ $? != 0 ]]; then
@@ -41,27 +42,31 @@ function MakeInstall() {
 
 function install_stdlib() {
     Clone https://github.com/${REPO}/interflop-stdlib
-    Cd interflop-stdlib
+    Cd src/interflop-stdlib
     Autogen
     Configure --enable-warnings
     Make
     MakeInstall
-    Cd ..
+    Cd ${PWD}
 }
 
 function install_backend() {
     Clone https://github.com/${REPO}/interflop-backend-$1
-    Cd interflop-backend-$1
+    Cd src/backends/interflop-backend-$1
     Autogen
     Configure --enable-warnings
     Make
     MakeInstall
-    Cd ..
+    Cd ${PWD}
 }
+
+rm -rf src/interflop-stdlib
+rm -rf src/backends/interflop-backend-*
+git submodule update --init --recursive
 
 install_stdlib
 
-backends=(bitmask cancellation ieee mcaint mcaquad verrou vprec)
+backends=(bitmask cancellation ieee mcaint mcaquad vprec)
 for backend in ${backends[@]}; do
     install_backend $backend
 done
