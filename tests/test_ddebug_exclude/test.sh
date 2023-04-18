@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-verificarlo-c --ddebug -g -O0 test.c -o test
+verificarlo-c --ddebug -O0 test.c -o test
 
 rm -f operations.txt operations2.txt
 
