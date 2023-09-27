@@ -31,8 +31,9 @@ confidence = 0.95
 
 ##########################################################################
 
+
 def significant_digits(x):
-    '''First wrapper to sd.significant_digits (returns results in base 2)'''
+    """First wrapper to sd.significant_digits (returns results in base 2)"""
 
     if x.mu == 0:
         return 53
@@ -53,9 +54,8 @@ def significant_digits(x):
             mu,
             error=sd.Error.Relative,
             method=sd.Method.General,
-
             probability=probability,
-            confidence=confidence
+            confidence=confidence,
         )
 
         # s is returned inside a list
@@ -67,10 +67,10 @@ def significant_digits(x):
 
 
 def significant_digits_lower_bound(x):
-    '''
+    """
     Second wrapper to sd.significant_digits : assumes that s2 has already been
     computed
-    '''
+    """
 
     # If the null hypothesis is rejected, no lower bound
     if x.pvalue < min_pvalue:
@@ -91,18 +91,17 @@ def significant_digits_lower_bound(x):
             mu,
             error=sd.Error.Relative,
             method=sd.Method.CNH,
-
             probability=0.9,
-            confidence=0.95
+            confidence=0.95,
         )
         return s[0]
 
 
 def apply_data_pocessing(data):
-    '''
+    """
     This function computes most test metrics (mu, sigma, quantiles, ...).
     Doesn't include significant digits.
-    '''
+    """
 
     # Get empirical average, standard deviation and p-value
     data["mu"] = np.average(data["values"])
@@ -119,13 +118,16 @@ def apply_data_pocessing(data):
     # Check validation
 
     if data["check_mode"] == "absolute":
-        data["check"] = True if data["sigma"] < abs(
-            data["accuracy_threshold"]) else False
+        data["check"] = (
+            True if data["sigma"] < abs(data["accuracy_threshold"]) else False
+        )
 
     elif data["check_mode"] == "relative":
-        data["check"] = True if abs(
-            data["sigma"] /
-            data["mu"]) < abs(data["accuracy_threshold"]) else False
+        data["check"] = (
+            True
+            if abs(data["sigma"] / data["mu"]) < abs(data["accuracy_threshold"])
+            else False
+        )
 
     else:
         data["check"] = True
@@ -134,9 +136,9 @@ def apply_data_pocessing(data):
 
 
 def data_processing(data):
-    '''
+    """
     Computes all metrics on the dataframe
-    '''
+    """
 
     # Converts classic lists to Numpy arrays
     data["values"] = data["values"].apply(lambda x: np.array(x))
@@ -146,12 +148,13 @@ def data_processing(data):
 
     # Significant digits
     data["s2"] = data.apply(significant_digits, axis=1)
-    data["s10"] = data["s2"].apply(lambda x: sd.change_base(x, 10))
+    data["s10"] = data["s2"].apply(lambda x: sd.change_basis(x, 10))
 
     # Lower bound of the confidence interval using the sigdigits module
     data["s2_lower_bound"] = data.apply(significant_digits_lower_bound, axis=1)
     data["s10_lower_bound"] = data["s2_lower_bound"].apply(
-        lambda x: sd.change_base(x, 10))
+        lambda x: sd.change_basis(x, 10)
+    )
 
     data["nsamples"] = data["values"].apply(len)
 
@@ -159,18 +162,24 @@ def data_processing(data):
 
 
 def validate_deterministic_probe(x):
-    '''
+    """
     This function will be applied to results dataframes of deterministic
     backends to validate probes depending on if they are absolute or relative
-    '''
+    """
 
     if x["check_mode"] == "absolute":
-        return True if abs(
-            x["value"] -
-            x["reference_value"]) < abs(x["accuracy_threshold"]) else False
+        return (
+            True
+            if abs(x["value"] - x["reference_value"]) < abs(x["accuracy_threshold"])
+            else False
+        )
 
     if x["check_mode"] == "relative":
-        return True if abs(x["value"] - x["reference_value"]) / \
-            abs(x["reference_value"]) < abs(x["accuracy_threshold"]) else False
+        return (
+            True
+            if abs(x["value"] - x["reference_value"]) / abs(x["reference_value"])
+            < abs(x["accuracy_threshold"])
+            else False
+        )
 
     return True
