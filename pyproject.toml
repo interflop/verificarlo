@@ -18,7 +18,6 @@ classifiers = [
 license = { file = "COPYING" }
 dependencies = [
     "numpy>=1.19",
-    "bigfloat",
     "pandas",
     "tables",
     "scipy",
