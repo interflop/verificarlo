@@ -157,12 +157,12 @@ def compile_vfcwrapper(source, output, args, emit_llvm=False):
 
 
 def linker_mode(sources, options, libraries, output, args):
-    vfcwrapper_o = ".vfcwrapper.o"
+    vfcwrapper_o = get_tmp_name(".vfcwrapper", ".o")
 
     compile_vfcwrapper(vfcwrapper, vfcwrapper_o, args)
 
     with tempfile.NamedTemporaryFile(mode="w+") as f:
-        sources = " ".join([os.path.splitext(s)[0] + ".o" for s in sources])
+        sources = " ".join(sources)
         interflop_libs = " ".join(
             ["-linterflop_stdlib", "-linterflop_hashmap", "-linterflop_logger"]
         )
@@ -201,6 +201,11 @@ def compile_only(sources, options, output, args):
     shell(f"{compiler} {sources} {options} {output}")
 
 
+def get_tmp_name(prefix, suffix):
+    """Return a temporary file name with the given prefix and suffix. (do not create the file)"""
+    return tempfile.mktemp(suffix=suffix, prefix=prefix, dir="")
+
+
 def get_tmp_filename(prefix, suffix, args):
     filename_ext = os.path.basename(prefix)
     basename = os.path.splitext(filename_ext)[0]
@@ -218,6 +223,7 @@ def compiler_mode(sources, options, output, args):
     vfcwrapper_ir = get_tmp_filename(".vfcwrapper", ".ll", args)
     compile_vfcwrapper(vfcwrapper, vfcwrapper_ir.name, args, emit_llvm=True)
 
+    objects_name = []
     for source in sources:
         basename = os.path.splitext(source)[0]
         ir = get_tmp_filename(basename, ".1.ll", args)
@@ -230,7 +236,9 @@ def compiler_mode(sources, options, output, args):
 
         if is_assembly(source):
             if not output:
-                basename_output = "-o " + basename + ".o"
+                # Use a temporary file to store the object
+                # to avoid race conditions
+                basename_output = "-o " + get_tmp_name(f"{basename}.", ".o")
             else:
                 basename_output = output
             compile_only([source], " -c " + options, basename_output, args)
@@ -299,16 +307,24 @@ def compiler_mode(sources, options, output, args):
             )
 
         if not output:
-            basename_output = "-o " + basename + ".o"
+            # Use a temporary file to store the object
+            # to avoid race conditions
+            basename_output = get_tmp_name(f"{basename}.", ".o")
+            cmd_output = " -o " + basename_output
         else:
             basename_output = output
+            cmd_output = basename_output
+
+        objects_name.append(basename_output)
 
         if not args.emit_llvm:
             # Produce object file
-            shell(f"{compiler} -c {basename_output} {ins.name} {options}")
+            shell(f"{compiler} -c {cmd_output} {ins.name} {options}")
         else:
             # Produce a bc file with the wrapper bc linked in.
-            shell(f"{llvm_link} {ins.name} {vfcwrapper_ir.name} {basename_output}")
+            shell(f"{llvm_link} {ins.name} {vfcwrapper_ir.name} {cmd_output}")
+
+    return objects_name
 
 
 if __name__ == "__main__":
@@ -392,5 +408,5 @@ if __name__ == "__main__":
     else:
         if len(sources) == 0 and len(llvm_options) == 0:
             fail("no input files")
-        compiler_mode(sources, llvm_options, "", args)
-        linker_mode(sources, llvm_options, libraries, output, args)
+        objects = compiler_mode(sources, llvm_options, "", args)
+        linker_mode(objects, llvm_options, libraries, output, args)
