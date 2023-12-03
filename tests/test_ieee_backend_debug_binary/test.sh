@@ -10,10 +10,11 @@ check_success() {
     fi
 }
 
-compile() {
-    TYPE=$1
-    verificarlo-c -D${TYPE^^} -O0 test.c --verbose -o test_${TYPE} -lm
-    check_success
+check_executable() {
+    if [[ ! -f $1 ]]; then
+        echo "Executable $1 not found"
+        exit 1
+    fi
 }
 
 run() {
@@ -40,9 +41,9 @@ compare() {
 
 export VFC_BACKENDS_SILENT_LOAD="TRUE"
 
-for REALTYPE in "float" "double"; do
-    compile $REALTYPE
-done
+parallel -j $(nproc) --header : verificarlo -DREAL={type} -O0 test.c --verbose -o test_{type} -lm ::: type float double
+check_executable test_float
+check_executable test_double
 
 echo "denormal denormalized"
 export VFC_BACKENDS="libinterflop_ieee.so --debug-binary --print-new-line --no-backend-name"

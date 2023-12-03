@@ -11,7 +11,7 @@ function check_status() {
 
 export VFC_BACKENDS_LOGGER=False
 
-verificarlo-c test_mantissa.c -o test_mantissa --inst-func -lm
+parallel "verificarlo-c test_{1}.c -o test_{1} --inst-func -lm" ::: mantissa exponent range
 
 # mode none
 rm -f output.txt
@@ -87,8 +87,6 @@ for i in 0 1 2; do
 	./test_mantissa ${double_arr[$i]} ${float_arr[$i]} >>output.txt
 	check_status
 done
-
-verificarlo-c test_exponent.c -o test_exponent --inst-func -lm
 
 echo "--------------------------------------------------------------" >>output.txt
 echo "							 Exponent 							" >>output.txt
@@ -170,8 +168,6 @@ echo "--------------------------------------------------------------" >>output.t
 echo "							 Range 							    " >>output.txt
 echo "--------------------------------------------------------------" >>output.txt
 echo "" >>output.txt
-
-verificarlo-c test_range.c -o test_range --inst-func -lm
 
 export VFC_BACKENDS="libinterflop_vprec.so --prec-output-file=config.txt"
 

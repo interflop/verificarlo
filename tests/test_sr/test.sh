@@ -7,8 +7,7 @@ export VFC_BACKENDS_LOGFILE="logs/verificarlo.log"
 
 ITERATIONS=100
 
-verificarlo-c -DITERATIONS=$ITERATIONS -O0 sr-binary32.c -o sr-binary32 -lm
-verificarlo-c -DITERATIONS=$ITERATIONS -O0 sr-binary64.c -o sr-binary64 -lm
+parallel --header : "verificarlo-c -DITERATIONS=$ITERATIONS -O0  sr-{type}.c -o sr-{type} -lm" ::: type binary32 binary64
 
 for BACKEND in libinterflop_mca.so libinterflop_mca_int.so; do
 
