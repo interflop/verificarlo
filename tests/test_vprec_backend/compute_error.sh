@@ -21,7 +21,7 @@ echo "N_SAMPLES=${N_SAMPLES}"
 ROOT=$PWD
 SRC=$PWD/compute_vprec_rounding.c
 COMPUTE_VPREC_ROUNDING=${COMPUTE_VPREC_ROUNDING}_${TYPE}
-COMPUTE_MPFR_ROUNDING=$PWD/compute_mpfr_rounding.py
+COMPUTE_MPFR_ROUNDING=$PWD/compute_mpfr_rounding
 GENERATE_INPUT=$PWD/generate_input.py
 CHECK_OUTPUT=$PWD/check_output.py
 

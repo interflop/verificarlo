@@ -63,8 +63,7 @@ precision_option["double"]=--precision-binary64
 rm -f log.error
 rm -f run_parallel.sh
 
-verificarlo-c compute_vprec_rounding.c -DREAL=float -o compute_vprec_rounding_float --verbose --show-cmd
-verificarlo-c compute_vprec_rounding.c -DREAL=double -o compute_vprec_rounding_double --verbose --show-cmd
+parallel --header : "verificarlo-c compute_vprec_rounding.c -DREAL={type} -o compute_vprec_rounding_{type} --verbose" ::: type float double
 
 export COMPUTE_VPREC_ROUNDING=$(realpath compute_vprec_rounding)
 

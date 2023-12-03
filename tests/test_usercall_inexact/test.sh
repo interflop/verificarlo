@@ -24,9 +24,7 @@ run_test() {
 }
 
 # Move out compilation to faster test
-for REAL in float double; do
-    verificarlo-c -Og test.c -DREAL=${REAL} -DN=${N} -o test_${REAL}
-done
+parallel --header : "verificarlo-c -Og test.c -DREAL={type} -DN=${N} -o test_{type}" ::: type float double
 
 clean
 for REAL in float double; do
