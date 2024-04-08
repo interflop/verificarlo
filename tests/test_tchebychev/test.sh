@@ -14,6 +14,7 @@ export VFC_BACKENDS_LOGGER="False"
 
 verificarlo-c tchebychev.c -o tchebychev
 
+echo "z y" >output
 # Run 15 iterations of tchebychev for all values in [.0:1.0:.01]
 parallel -k -j $(nproc) --header : "for i in {1..15} ; do ./tchebychev {z} ; done" ::: z $(seq 0.0 0.01 1.0) >>output
 
