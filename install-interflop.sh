@@ -1,50 +1,67 @@
 #!/bin/bash
 
-ROOT=$PWD
+# This script installs the interflop-stdlib library.
 
-function check() {
+ROOT=$PWD # Save the current directory.
+
+# This function checks the exit status of the last command.
+# If it's not 0 (which means the command failed),
+# it prints an error message and exits the script.
+function check_last_command() {
     if [[ $? != 0 ]]; then
-        echo "Error"
+        echo "The last command failed. Please check the error message above."
         exit 1
     fi
 }
 
-function Cd() {
+# This function changes the current directory to the one specified as an argument.
+function change_directory() {
     cd $1
-    check
+    check_last_command
 }
 
-function Autogen() {
+# This function runs the autogen.sh script.
+function run_autogen() {
     ./autogen.sh
-    check
+    check_last_command
 }
 
-function Configure() {
+# This function runs the configure script with the specified arguments.
+function run_configure() {
     ./configure $@
-    check
+    check_last_command
 }
 
-function Make() {
+# This function runs the make command.
+function build_project() {
     make
-    check
+    check_last_command
 }
 
-function MakeInstall() {
+# This function runs the "make install" command.
+function install_project() {
     make install
-    check
+    check_last_command
 }
 
+# This function installs the interflop-stdlib library.
 function install_stdlib() {
     echo "Installing stdlib"
     echo "Arguments: $@"
-    Cd src/interflop-stdlib
-    Autogen
-    Configure --enable-warnings $@
-    Make
-    MakeInstall
-    Cd ${ROOT}
+    change_directory src/interflop-stdlib
+    run_autogen
+    run_configure --enable-warnings $@
+    build_project
+    install_project
+    change_directory ${ROOT}
 }
 
-install_stdlib $@
+# Check if -h or --help was passed as an argument.
+if [[ $1 == "-h" || $1 == "--help" ]]; then
+    echo "Usage: $0 [configure arguments]"
+    echo -e "\tAccepts all the arguments accepted by the configure script."
+    echo -e "\tUse --prefix to specify a local installation directory."
+    exit 0
+fi
 
-# export LD_LIBRARY_PATH=$(interflop-config --libdir):$LD_LIBRARY_PATH
+install_stdlib $@
