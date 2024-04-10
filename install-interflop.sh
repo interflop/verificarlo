@@ -1,6 +1,5 @@
 #!/bin/bash
 
-REPO=interflop
 ROOT=$PWD
 
 function check() {
@@ -8,11 +7,6 @@ function check() {
         echo "Error"
         exit 1
     fi
-}
-
-function Clone() {
-    git clone $1
-    check
 }
 
 function Cd() {

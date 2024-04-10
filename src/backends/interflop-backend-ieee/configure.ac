@@ -1,4 +1,4 @@
-AC_INIT([interflop-backend-mcaquad],[1.0],[interflop.project@gmail.com])
+AC_INIT([interflop-backend-ieee],[1.0],[interflop.project@gmail.com])
 AM_SILENT_RULES([yes])
 AC_CONFIG_AUX_DIR(autoconf)
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror foreign])
@@ -15,7 +15,5 @@ AX_WARNINGS()
 AX_LTO()
 AX_INTERFLOP_STDLIB()
 
-AC_CONFIG_FILES([
- Makefile
-])
+AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
