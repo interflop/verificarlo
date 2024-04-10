@@ -1,5 +1,7 @@
+m4_define([VERIFICARLO_VERSION], [m4_esyscmd([grep -oPZ '(?<=__version__ = ")[^"]*' VERSION | tr -d '\n'])])
+
 AC_PREREQ([2.69])
-AC_INIT([verificarlo], [m4_esyscmd([cat VERSION])], [])
+AC_INIT([verificarlo], [VERIFICARLO_VERSION], [])
 AM_SILENT_RULES([yes])
 AC_CONFIG_AUX_DIR(autoconf)
 AC_CONFIG_MACRO_DIR([m4])

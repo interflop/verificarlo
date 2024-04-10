@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "verificarlo"
-version = "0.9.1"
+dynamic = ["version"]
 description = "A tool for debugging and assessing floating point precision and reproducibility."
 authors = [
     { name = "Verificarlo contributors", email = "verificarlo@googlegroups.com" },
@@ -26,6 +26,10 @@ dependencies = [
     "bokeh",
     "significantdigits>=0.2.0",
 ]
+
+[tool.hatch.version]
+path = "VERSION"
+
 
 [tool.hatch.build]
 include = [
