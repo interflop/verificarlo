@@ -1,1 +1,1 @@
-SUBDIRS= interflop-backend-bitmask interflop-backend-cancellation interflop-backend-ieee interflop-backend-mcaint interflop-backend-mcaquad   interflop-backend-vprec
+SUBDIRS = @INTERFLOP_BACKENDS@
