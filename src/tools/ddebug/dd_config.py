@@ -4,8 +4,7 @@ import sys
 
 
 def exponentialRange(nbRun):
-    tab = [int(nbRun / (2**i))
-           for i in range(1 + int(math.floor(math.log(nbRun, 2))))]
+    tab = [int(nbRun / (2**i)) for i in range(1 + int(math.floor(math.log(nbRun, 2))))]
     tab.reverse()
     return tab
 
@@ -70,13 +69,18 @@ class ddConfig:
         if self.maxNbPROC is not None:
             if self.maxNbPROC < self.nbRUN:
                 print(
-                    "Due due implementation limitation (nbRun <=maxNbPROC or maxNbPROC=1): maxNbPROC unset\n")
+                    "Due due implementation limitation (nbRun <=maxNbPROC or maxNbPROC=1): maxNbPROC unset\n"
+                )
                 self.maxNbPROC = None
 
         self.readOneOption("ddAlgo", "string", "DD_ALGO", ["ddmax", "rddmin"])
 
-        self.readOneOption("rddminVariant", "string", "DD_RDDMIN", [
-                           "s", "stoch", "d", "dicho", "", "strict"])
+        self.readOneOption(
+            "rddminVariant",
+            "string",
+            "DD_RDDMIN",
+            ["s", "stoch", "d", "dicho", "", "strict"],
+        )
         if self.rddminVariant == "stoch":
             self.rddminVariant = "s"
         if self.rddminVariant == "dicho":
@@ -84,10 +88,15 @@ class ddConfig:
         if self.rddminVariant == "strict":
             self.rddminVariant = ""
 
-        self.readOneOption("param_rddmin_tab", "string",
-                           "DD_RDDMIN_TAB", ["exp", "all", "single"])
-        self.readOneOption("param_dicho_tab", "int/string",
-                           "DD_DICHO_TAB", ["exp", "all", "half", "single"])
+        self.readOneOption(
+            "param_rddmin_tab", "string", "DD_RDDMIN_TAB", ["exp", "all", "single"]
+        )
+        self.readOneOption(
+            "param_dicho_tab",
+            "int/string",
+            "DD_DICHO_TAB",
+            ["exp", "all", "half", "single"],
+        )
         self.readOneOption("splitGranularity", "int", "DD_DICHO_GRANULARITY")
         self.readOneOption("ddSym", "bool", "DD_SYM")
         self.readOneOption("ddQuiet", "bool", "DD_QUIET")
@@ -112,11 +121,24 @@ class ddConfig:
                     try:
                         exec("self." + attribut + "= int(value)")
                     except Exception:
-                        print("Error : " + self.PREFIX + "_" + key_name +
-                              " should be in " + str(acceptedValue) + " or be a int value")
+                        print(
+                            "Error : "
+                            + self.PREFIX
+                            + "_"
+                            + key_name
+                            + " should be in "
+                            + str(acceptedValue)
+                            + " or be a int value"
+                        )
                 else:
-                    print("Error : " + self.PREFIX + "_" + key_name +
-                          " should be in " + str(acceptedValue))
+                    print(
+                        "Error : "
+                        + self.PREFIX
+                        + "_"
+                        + key_name
+                        + " should be in "
+                        + str(acceptedValue)
+                    )
                     self.failure()
             exec("self." + attribut + "= value")
         except KeyError:
@@ -164,7 +186,7 @@ class ddConfig:
         if self.param_dicho_tab == "single":
             splitTab = [self.nbRUN]
         if self.param_dicho_tab == "half":
-            splitTab = [int(math.ceil(self.nbRUN / 2.))]
+            splitTab = [int(math.ceil(self.nbRUN / 2.0))]
         if self.param_dicho_tab in [str(i) for i in range(1, self.nbRUN + 1)]:
             splitTab = [self.param_dicho_tab]
         return splitTab
@@ -181,4 +203,4 @@ class ddConfig:
         PREFIXENV_DD_QUIET : set or not (default not)
         PREFIXENV_DD_SYM : set or not (default not)
         """
-        return doc.replace("PREFIXENV_", PREFIX+"_")
+        return doc.replace("PREFIXENV_", PREFIX + "_")
