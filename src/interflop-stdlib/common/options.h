@@ -72,8 +72,9 @@
 /* @param sparsity sparsity */
 /* @param rng_state pointer to the structure holding all the RNG-related data */
 /* @return false -> perturb; true -> skip */
-static bool _mca_skip_eval(const float sparsity, rng_state_t *rng_state,
-                           pid_t *global_tid) {
+__attribute__((unused)) static bool _mca_skip_eval(const float sparsity,
+                                                   rng_state_t *rng_state,
+                                                   pid_t *global_tid) {
   if (sparsity >= 1.0f) {
     return false;
   }

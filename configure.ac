@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([verificarlo], [1.0.0], [])
+AC_INIT([verificarlo], [m4_esyscmd([cat VERSION])], [])
 AM_SILENT_RULES([yes])
 AC_CONFIG_AUX_DIR(autoconf)
 AC_CONFIG_MACRO_DIR([m4])
