@@ -188,9 +188,12 @@ else
                 AC_MSG_ERROR([could not find python 2.7 or higher])])
 fi
 
+
+
 AX_WARNINGS()
 AX_LTO()
 AX_INTERFLOP_STDLIB()
+AX_INTERFLOP_BACKENDS()
 
 # Generate config files
 AC_CONFIG_FILES([Makefile
@@ -199,7 +202,6 @@ AC_CONFIG_FILES([Makefile
                  src/libvfcinstrument/Makefile
                  src/libvfcfuncinstrument/Makefile
                  src/vfcwrapper/Makefile
-                 src/backends/Makefile
                  tests/Makefile
                  tests/paths.sh
                 ])

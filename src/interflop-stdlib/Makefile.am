@@ -52,8 +52,3 @@ m4_DATA = \
 	m4/ax_intrinsic_fma.m4 \
 	m4/ax_interflop_rng.m4
 
-dist_bin_SCRIPTS = interflop-config
-
-interflop-config: interflop-config.in
-	./automake-expand --config-log config.log --input interflop-config.in --output interflop-config && \
-	chmod +x interflop-config
