@@ -1,10 +1,9 @@
 import ctypes
 import ctypes.util
-import sys
 import os
-from verificarlo.ddebug import dd_config
-from verificarlo.ddebug import DD_stoch
-from verificarlo.ddebug import DD_exec_stat
+import sys
+
+from verificarlo.ddebug import DD_exec_stat, DD_stoch, dd_config
 
 
 class DDline(DD_stoch.DDStoch):
@@ -12,8 +11,10 @@ class DDline(DD_stoch.DDStoch):
         DD_stoch.DDStoch.__init__(self, config, prefix)
 
     def referenceRunEnv(self):
-        return {"VFC_BACKENDS": "libinterflop_ieee.so",
-                "VFC_DDEBUG_GEN":   os.path.join(self.ref_, "dd.line.%%p")}
+        return {
+            "VFC_BACKENDS": "libinterflop_ieee.so",
+            "VFC_DDEBUG_GEN": os.path.join(self.ref_, "dd.line.%%p"),
+        }
 
     def isFileValidToMerge(self, name):
         return name.startswith("dd.line.")
@@ -22,7 +23,11 @@ class DDline(DD_stoch.DDStoch):
         return "dd.line"
 
     def sampleRunEnv(self, dirName):
-        return {"VFC_DDEBUG_INCLUDE": os.path.join(dirName, self.getDeltaFileName() + ".include")}
+        return {
+            "VFC_DDEBUG_INCLUDE": os.path.join(
+                dirName, self.getDeltaFileName() + ".include"
+            )
+        }
 
     def coerce(self, delta_config):
         return "\n".join([line[:-1] for line in delta_config])
@@ -32,7 +37,7 @@ def disable_ASLR():
     # We call personality(ADDR_NO_RANDOMIZE) to disable ASLR, so that addresses during reference run
     # always match addresses during sample runs (even for .so code).
     ADDR_NO_RANDOMIZE = 0x0040000
-    libc_name = ctypes.util.find_library('c')
+    libc_name = ctypes.util.find_library("c")
     libc = ctypes.CDLL(libc_name)
     personality = libc.personality
     personality(ADDR_NO_RANDOMIZE)

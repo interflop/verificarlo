@@ -18,9 +18,9 @@
 #                                                                           #\
 #############################################################################
 
-import significantdigits as sd
-import scipy.stats
 import numpy as np
+import scipy.stats
+import significantdigits as sd
 
 # Magic numbers
 # For the normality test :
