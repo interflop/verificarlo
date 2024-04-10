@@ -189,6 +189,7 @@ else
 fi
 
 AX_WARNINGS()
+AX_LTO()
 AX_INTERFLOP_STDLIB()
 
 # Generate config files
@@ -198,11 +199,12 @@ AC_CONFIG_FILES([Makefile
                  src/libvfcinstrument/Makefile
                  src/libvfcfuncinstrument/Makefile
                  src/vfcwrapper/Makefile
+                 src/backends/Makefile
                  tests/Makefile
+                 tests/paths.sh
                 ])
 
 AC_CONFIG_FILES([verificarlo.in
-                 tests/paths.sh
                  src/vfcwrapper/main.c
                  ],
                 [chmod +x tests/paths.sh])
