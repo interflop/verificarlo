@@ -1,5 +1,4 @@
 #!/bin/sh
 
-mkdir -p m4
-cp $(interflop-config --m4dir)/*.m4 m4/
-autoreconf -is
+mkdir -p m4 src/backends/*/m4
+autoreconf -is -I $(realpath src/interflop-stdlib/m4/)
