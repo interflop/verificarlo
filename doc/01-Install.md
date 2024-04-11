@@ -3,11 +3,11 @@
 Please ensure that Verificarlo's dependencies are installed on your system:
 
   * LLVM, clang and opt from 4.0 up to 15.0, http://clang.llvm.org/
-  * gcc from 4.9
+  * gcc from 7
   * autotools (automake, autoconf)
   * libtool
   * flang for Fortran support (optional)
-  * python3 with the following packages :
+  * python3.8 or above with the following packages :
     * numpy
     * scipy (version 1.5.0 or above)
     * bigfloat
@@ -39,7 +39,7 @@ install procedure:
    $ sudo pip3 install bigfloat pandas scipy GitPython tables jinja2 bokeh
    $ cd verificarlo/
    $ ./autogen.sh
-   $ ./configure --with-flang CC=gcc-7 CXX=g++-7
+   $  CC=gcc-7 CXX=g++-7 ./configure --with-flang
    $ make
    $ sudo make install
 ```

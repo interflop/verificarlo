@@ -22,13 +22,19 @@ GCC_VERSION=`$CC --version | head -n1 | awk '{print $NF;}'`
 AC_MSG_CHECKING([for gcc version])
 AC_DEFINE_UNQUOTED([GCC_VERSION],[$GCC_VERSION],[The gcc version])
 AC_MSG_RESULT([$GCC_VERSION])
-AX_COMPARE_VERSION([$GCC_VERSION],[ge],['6.0.0'],[],[AC_MSG_ERROR([At least GCC version 6 is required])])
+AX_COMPARE_VERSION([$GCC_VERSION],[ge],['7.0.0'],[],[AC_MSG_ERROR([At least GCC version 7 is required])])
 AC_DEFINE_UNQUOTED([GCC_PATH], ["$CC"], [GCC path (for compiling)])
 AC_SUBST(GCC_PATH, $CC)
 AX_LLVM([4.0],[15.0.6],[all])
 AC_SUBST(LLVM_CPPFLAGS, $LLVM_CPPFLAGS)
 AC_SUBST(LLVM_LDFLAGS, $LLVM_LDFLAGS)
 AC_SUBST(LLVM_VERSION_MAJOR, $LLVM_VERSION_MAJOR)
+
+GLIBC_VERSION=`ldd --version | head -n1 | awk '{print $NF;}'`
+AC_MSG_CHECKING([for glibc version])
+AC_DEFINE_UNQUOTED([GLIBC_VERSION],[$GLIBC_VERSION],[The glibc version])
+AC_MSG_RESULT([$GLIBC_VERSION])
+AX_COMPARE_VERSION([$GLIBC_VERSION],[ge],['2.28.0'],[],[AC_MSG_ERROR([At least glibc version 2.28 is required])])
 
 AC_PATH_PROG([CLANG], [clang], "", $LLVM_BINDIR/ $PATH)
 if test -z "$CLANG"; then
