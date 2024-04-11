@@ -7,17 +7,16 @@ on:
   pull_request:
     branches: [ '*' ]
 
+env:
+  TEST_TAG: verificarlo/verificarlo:test
+  LATEST_TAG: verificarlo/verificarlo:latest
+
 jobs:
   docker:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: verificarlo
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build and export to Docker
@@ -27,4 +26,4 @@ jobs:
           load: true
       - name: Test
         run: |
-          docker run --rm verificarlo -c "make -C /build/verificarlo installcheck"
+          docker run --rm ${{ env.TEST_TAG }} -c "make -C /build/verificarlo installcheck"
