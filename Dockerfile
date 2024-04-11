@@ -40,7 +40,7 @@ ENV CXX=g++-${GCC_VERSION}
 COPY . /build/verificarlo/
 WORKDIR /build/verificarlo
 
-RUN ./install-interflop.sh  && pwd && ls && \
+RUN ./install-interflop.sh  && pwd && ls -R && \
     ./autogen.sh && \
     ./configure \
     --with-llvm=$(llvm-config-${LLVM_VERSION} --prefix) \
