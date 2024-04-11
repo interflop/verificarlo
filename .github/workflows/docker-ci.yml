@@ -27,4 +27,4 @@ jobs:
           tags: ${{ env.TEST_TAG }}
       - name: Test
         run: |
-          docker run --rm ${{ env.TEST_TAG }} -c "make -C /build/verificarlo installcheck"
+          docker run --rm ${{ env.TEST_TAG }} /bin/bash -c "make -C /build/verificarlo installcheck"
