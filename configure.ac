@@ -190,7 +190,7 @@ else
                 AC_MSG_ERROR([could not find python 2.7 or higher])])
 fi
 
-
+AC_CONFIG_SUBDIRS([src/interflop-stdlib])
 
 AX_WARNINGS()
 AX_LTO()

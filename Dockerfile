@@ -40,11 +40,10 @@ ENV CXX=g++-${GCC_VERSION}
 COPY . /build/verificarlo/
 WORKDIR /build/verificarlo
 
-RUN ./install-interflop.sh  && \
-    ./autogen.sh && \
+RUN ./autogen.sh && \
     ./configure \
     --with-llvm=$(llvm-config-${LLVM_VERSION} --prefix) \
-    --with-flang CC=gcc-${GCC_VERSION} CXX=g++-${GCC_VERSION} \
+    --with-flang  \
     || cat config.log
 
 # Build verificarlo
