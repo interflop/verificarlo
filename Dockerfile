@@ -45,7 +45,7 @@ WORKDIR /build/verificarlo
 RUN { ./autogen.sh && \
     ./configure \
     --with-llvm=$(llvm-config-${LLVM_VERSION} --prefix) \
-    --with${WITH_FLANG:-out-flang} ; } || { cat config.log; exit 1; }
+    --with$-{WITH_FLANG:-out-flang} ; } || { cat config.log; exit 1; }
 
 # Build verificarlo
 RUN make && make install 
