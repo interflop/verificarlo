@@ -12,7 +12,7 @@ on:
 
 jobs:
   docker-flang:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       TEST_TAG: verificarlo/verificarlo:test
       LATEST_TAG: ${{ github.repository }}:latest
@@ -49,6 +49,7 @@ jobs:
             ${{ env.RELEASE_TAG }}
 
   docker:
+    runs-on: ubuntu-22.04
     if: github.event_name == 'pull_request'
     strategy:
       matrix:
