@@ -3,8 +3,8 @@
 # This image includes support for Fortran and uses llvm-7 and gcc-7
 #
 
-ARG UBUNTU_VERSION=20.04
-FROM ubuntu:${UBUNTU_VERSION}
+ARG UBUNTU_VERSION=ubuntu-20.04
+FROM ${UBUNTU_VERSION:-ubuntu-20.04}
 LABEL maintainer="verificarlo contributors <verificarlo@googlegroups.com>"
 
 ARG PYTHON_VERSION=3.8
