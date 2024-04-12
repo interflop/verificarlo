@@ -103,6 +103,7 @@ jobs:
           load: true
           tags: ${{ env.LOCAL_TEST_TAG }}
           build-args: |
+            UBUNTU_VERSION=${{ matrix.os }}
             LLVM_VERSION=${{ matrix.llvm }}
             GCC_VERSION=${{ matrix.gcc }}
             WITH_FLANG=
