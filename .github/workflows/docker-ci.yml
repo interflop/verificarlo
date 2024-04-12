@@ -9,14 +9,14 @@ on:
   release:
     types: [ published ]
 
-env:
-  TEST_TAG: verificarlo/verificarlo:test
-  LATEST_TAG: ${{ github.repository }}:latest
-  RELEASE_TAG: ${{ github.repository }}:${{ github.ref }}
 
 jobs:
   docker-flang:
     runs-on: ubuntu-20.04
+    env:
+      TEST_TAG: verificarlo/verificarlo:test
+      LATEST_TAG: ${{ github.repository }}:latest
+      RELEASE_TAG: ${{ github.repository }}:${{ github.ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -82,7 +82,9 @@ jobs:
             gcc: 9
     runs-on: ${{ matrix.os }}
     env:
-      LOCAL_TEST_TAG: ${{ env.TEST_TAG }}-llvm-${{ matrix.llvm }}
+      LATEST_TAG: ${{ github.repository }}:latest
+      RELEASE_TAG: ${{ github.repository }}:${{ github.ref }}
+      LOCAL_TEST_TAG: verificarlo/verificarlo:test-llvm-${{ matrix.llvm }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
