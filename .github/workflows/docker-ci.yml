@@ -48,7 +48,7 @@ jobs:
             ${{ env.LATEST_TAG }}
             ${{ env.RELEASE_TAG }}
 
-  docker-llvm-versions:
+  docker:
     if: github.event_name == 'pull_request'
     strategy:
       matrix:
