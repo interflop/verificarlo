@@ -3,12 +3,14 @@
 # This image includes support for Fortran and uses llvm-7 and gcc-7
 #
 
-FROM ubuntu:20.04
+ARG UBUNTU_VERSION=20.04
+FROM ubuntu:${UBUNTU_VERSION}
 LABEL maintainer="verificarlo contributors <verificarlo@googlegroups.com>"
 
 ARG PYTHON_VERSION=3.8
 ARG LLVM_VERSION=7
 ARG GCC_VERSION=7
+ARG WITH_FLANG=flang
 ARG GCC_PATH=/usr/lib/gcc/x86_64-linux-gnu/${GCC_VERSION}
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 ENV PATH /usr/local/bin:$PATH
@@ -21,7 +23,7 @@ RUN apt-get -y install --no-install-recommends \
     autogen dh-autoreconf autoconf automake autotools-dev libedit-dev libtool libz-dev binutils \
     clang-${LLVM_VERSION} llvm-${LLVM_VERSION} llvm-${LLVM_VERSION}-dev \
     gcc-${GCC_VERSION} g++-${GCC_VERSION} \
-    gfortran-${GCC_VERSION} libgfortran-${GCC_VERSION}-dev flang \
+    gfortran-${GCC_VERSION} libgfortran-${GCC_VERSION}-dev ${WITH_FLANG} \
     python3 python3-pip python3-dev cython3 parallel && \
     rm -rf /var/lib/apt/lists/*
 
@@ -40,11 +42,10 @@ ENV CXX=g++-${GCC_VERSION}
 COPY . /build/verificarlo/
 WORKDIR /build/verificarlo
 
-RUN ./autogen.sh && \
+RUN { ./autogen.sh && \
     ./configure \
     --with-llvm=$(llvm-config-${LLVM_VERSION} --prefix) \
-    --with-flang  \
-    || cat config.log
+    --with${WITH_FLANG:-out-flang} ; } || { cat config.log; exit 1; }
 
 # Build verificarlo
 RUN make && make install 
