@@ -33,7 +33,7 @@ check:
 	@echo "Tests should be run after install with make installcheck"
 
 install-exec-hook:
-	$(PYTHON) -m pip install . && \
+	$(PYTHON) -m pip install $(PYTHON_INSTALL_FLAGS) . && \
 	echo "Run 'source $(setenvdir)/set-env' to set environment variables"
 
 installcheck:

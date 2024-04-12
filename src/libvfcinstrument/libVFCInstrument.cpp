@@ -619,7 +619,11 @@ struct VfclibInst : public ModulePass {
       Value *value = replaceWithMCACall(M, I, opCode);
       if (value != nullptr) {
         BasicBlock::iterator ii(I);
+#if LLVM_VERSION_MAJOR >= 16
+        ReplaceInstWithValue(ii, value);
+#else
         ReplaceInstWithValue(B.getInstList(), ii, value);
+#endif
       }
       modified = true;
     }
