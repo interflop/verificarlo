@@ -42,11 +42,10 @@ ENV CXX=g++-${GCC_VERSION}
 COPY . /build/verificarlo/
 WORKDIR /build/verificarlo
 
-
 RUN { ./autogen.sh && \
     ./configure \
     --with-llvm=$(llvm-config-${LLVM_VERSION} --prefix) \
-    $( [[ "$WITH_FLANG" == "flang" ]] && echo "--with-flang" || echo "--without-flang" ) ; } \
+    $( [[ "$WITH_FLANG" = "flang" ]] && echo "--with-flang" || echo "--without-flang" ) ; } \
     || { cat config.log; exit 1; }
 
 # Build verificarlo
