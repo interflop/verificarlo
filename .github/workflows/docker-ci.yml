@@ -88,26 +88,18 @@ jobs:
             gcc: 9
     runs-on: ubuntu-22.04
     env:
-      LATEST_TAG: ${{ github.repository }}:latest
-      RELEASE_TAG: ${{ github.repository }}:${{ github.ref }}
-      LOCAL_TEST_TAG: verificarlo/verificarlo:test-llvm-${{ matrix.llvm }}
+      TEST_TAG: verificarlo/verificarlo:test-llvm-${{ matrix.llvm }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Login to Docker Hub
-        if: github.event_name == 'release'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and export to Docker
         uses: docker/build-push-action@v5
         with:
           context: .
           load: true
-          tags: ${{ env.LOCAL_TEST_TAG }}
+          tags: ${{ env.TEST_TAG }}
           build-args: |
             UBUNTU_VERSION=${{ matrix.os }}
             LLVM_VERSION=${{ matrix.llvm }}
@@ -115,10 +107,4 @@ jobs:
             WITH_FLANG=
       - name: Test
         run: |
-          docker run --rm ${{ env.LOCAL_TEST_TAG }} /bin/bash -c "make -C /build/verificarlo installcheck"
-      - name: Build and push
-        if: github.event_name == 'release'
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          tags: ${{ env.RELEASE_TAG }}
+          docker run --rm ${{ env.TEST_TAG }} /bin/bash -c "make -C /build/verificarlo installcheck"
