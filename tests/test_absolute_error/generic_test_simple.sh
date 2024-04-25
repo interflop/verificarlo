@@ -58,7 +58,7 @@ fi
 rm -rf run_parallel
 
 # Move out compilation to faster the test
-parallel --header : "verificarlo-c -g -Wall test_${test}.c --function=applyOp_{type} -o test_${test}_{type} -lm" ::: type ${!type_list[@]}
+parallel --header : "make --silent test=${test} type={type}" ::: type ${!type_list[@]}
 
 for type in "${!type_list[@]}"; do
 	bin=$(realpath test_${test}_${type})

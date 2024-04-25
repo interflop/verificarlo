@@ -4,9 +4,8 @@ set -e
 experiments=(FLOAT FLOAT_POW2 DOUBLE DOUBLE_POW2)
 precisions=("--precision-binary32=24" "--precision-binary64=53")
 
-parallel --header : "verificarlo-c -D{exp} -O0 rr_mode.c -o rr_mode_{exp}" ::: exp ${experiments[@]}
+parallel --header : "make --silent exp={exp}" ::: exp ${experiments[@]}
 
-# parallel -j $(nproc) <run_parallel
 backends=libinterflop_mca.so
 parallel -j $(nproc) --header : "./compute_error.sh ${backends} {exp} {prec} ${PWD}/rr_mode_{exp} " ::: exp ${experiments[@]} ::: prec ${precisions[@]}
 

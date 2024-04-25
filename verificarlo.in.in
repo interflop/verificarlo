@@ -157,12 +157,12 @@ def compile_vfcwrapper(source, output, args, emit_llvm=False):
 
 
 def linker_mode(sources, options, libraries, output, args):
-    vfcwrapper_o = get_tmp_name(".vfcwrapper", ".o")
+    vfcwrapper_o = get_tmp_name(".vfcwrapper.", ".o")
 
     compile_vfcwrapper(vfcwrapper, vfcwrapper_o, args)
 
     with tempfile.NamedTemporaryFile(mode="w+") as f:
-        sources = " ".join(sources)
+        sources = " ".join([os.path.splitext(s)[0] + ".o" for s in sources])
         interflop_libs = " ".join(
             ["-linterflop_stdlib", "-linterflop_hashmap", "-linterflop_logger"]
         )
@@ -223,7 +223,6 @@ def compiler_mode(sources, options, output, args):
     vfcwrapper_ir = get_tmp_filename(".vfcwrapper", ".ll", args)
     compile_vfcwrapper(vfcwrapper, vfcwrapper_ir.name, args, emit_llvm=True)
 
-    objects_name = []
     for source in sources:
         basename = os.path.splitext(source)[0]
         ir = get_tmp_filename(basename, ".1.ll", args)
@@ -236,9 +235,7 @@ def compiler_mode(sources, options, output, args):
 
         if is_assembly(source):
             if not output:
-                # Use a temporary file to store the object
-                # to avoid race conditions
-                basename_output = "-o " + get_tmp_name(f"{basename}.", ".o")
+                basename_output = "-o " + basename + ".o"
             else:
                 basename_output = output
             compile_only([source], " -c " + options, basename_output, args)
@@ -309,13 +306,9 @@ def compiler_mode(sources, options, output, args):
         if not output:
             # Use a temporary file to store the object
             # to avoid race conditions
-            basename_output = get_tmp_name(f"{basename}.", ".o")
-            cmd_output = " -o " + basename_output
+            cmd_output = " -o " + basename + ".o"
         else:
-            basename_output = output
-            cmd_output = basename_output
-
-        objects_name.append(basename_output)
+            cmd_output = output
 
         if not args.emit_llvm:
             # Produce object file
@@ -323,8 +316,6 @@ def compiler_mode(sources, options, output, args):
         else:
             # Produce a bc file with the wrapper bc linked in.
             shell(f"{llvm_link} {ins.name} {vfcwrapper_ir.name} {cmd_output}")
-
-    return objects_name
 
 
 if __name__ == "__main__":
@@ -408,5 +399,5 @@ if __name__ == "__main__":
     else:
         if len(sources) == 0 and len(llvm_options) == 0:
             fail("no input files")
-        objects = compiler_mode(sources, llvm_options, "", args)
-        linker_mode(objects, llvm_options, libraries, output, args)
+        compiler_mode(sources, llvm_options, "", args)
+        linker_mode(sources, llvm_options, libraries, output, args)

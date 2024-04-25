@@ -61,7 +61,7 @@ declare -A range_option=(["float"]="--range-binary32" ["double"]="--range-binary
 rm -f log.error
 rm -f run_parallel
 
-parallel --header : "verificarlo-c compute_vprec_rounding.c -DREAL={type} -o compute_vprec_rounding_{type} --verbose" ::: type float double
+parallel --header : "make --silent type={type}" ::: type float double
 
 export COMPUTE_VPREC_ROUNDING=$(realpath compute_vprec_rounding)
 
