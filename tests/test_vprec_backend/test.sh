@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [[ $# == 1 ]]; then
 	usecase=$1
 	echo $usecase

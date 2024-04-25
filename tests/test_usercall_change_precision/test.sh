@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 clean() {
     rm -f *.log
 }

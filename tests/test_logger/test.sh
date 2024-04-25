@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -e
+
 OUTPUT_FILE=output
 ERROR_FILE=error
 

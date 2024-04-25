@@ -1,12 +1,14 @@
 #!/bin/bash
 
+set -e
+
 source ../paths.sh
 
 SAMPLES=100
 SEED=$RANDOM
 echo "Seed: $SEED"
 
-declare -A options=([FLOAT]=--precision-binary32 options [DOUBLE]=--precision-binary64)
+declare -A options=([FLOAT]=--precision-binary32 [DOUBLE]=--precision-binary64)
 declare -A precision=([FLOAT]=24 [DOUBLE]=53)
 declare -A bitmask_modes=([IB]="ib" [OB]="ob" [FULL]="full")
 declare -A mca_modes=([IB]="pb" [OB]="rr" [FULL]="mca")

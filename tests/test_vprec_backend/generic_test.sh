@@ -1,6 +1,6 @@
 #!/bin/bash
 ##uncomment to stop on error
-#set -e
+set -e
 ##uncomment to show all command executed by the script
 #set -x
 

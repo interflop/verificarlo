@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 export VFC_BACKENDS_LOGGER=False
 export N=30
 
