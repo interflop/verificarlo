@@ -1,12 +1,19 @@
 #!/bin/bash
 
-set -e
+Check_status() {
+	if [[ $? != 0 ]]; then
+		echo "error: test failed"
+		exit 1
+	fi
+}
 
 Check_difference() {
-	diff -q $1 $2
-	if [[ $? == 0 ]]; then
+	ret=$(diff -q $1 $2)
+	if [[ $ret == 0 ]]; then
 		echo "error: files must be different"
 		exit 1
+	else
+		echo
 	fi
 }
 
@@ -50,6 +57,7 @@ Check() {
 
 echo "Checking"
 verificarlo-c -O0 test.c -o test
+Check_status
 Check 53
 
 echo -e "\nsuccess"
