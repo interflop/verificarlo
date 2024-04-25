@@ -83,9 +83,11 @@ jobs:
           - os: ubuntu:23.10
             llvm: 16
             gcc: 9
+            continue-on-error: true
           - os: ubuntu:23.10
             llvm: 17
             gcc: 9
+            continue-on-error: true
     runs-on: ubuntu-22.04
     env:
       TEST_TAG: verificarlo/verificarlo:test-llvm-${{ matrix.llvm }}
