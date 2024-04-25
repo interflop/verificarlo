@@ -36,7 +36,10 @@ for t in $tests; do
         printf "ok %2d %-${max_length}s %s\n" "$test_number" "$t" "$elapsed"
     elif [ $ret -eq 77 ]; then
         # SKIP test
-        printf "ok %2d %-${max_length}s %s #SKIP\n" "$test_number" "$t" "$elapsed"
+        printf "ok %2d %-${max_length}s %s # SKIP\n" "$test_number" "$t" "$elapsed"
+    elif [ $ret -eq 88 ]; then
+        # XFAIL test
+        printf "not ok %2d %-${max_length}s %s # TODO\n" "$test_number" "$t" "$elapsed"
     else
         printf "not ok %2d %-${max_length}s %s\n" "$test_number" "$t" "$elapsed"
     fi

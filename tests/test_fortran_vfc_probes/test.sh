@@ -3,7 +3,7 @@ set -e
 
 source ../paths.sh
 
-if [ -z "${FLANG}" ]; then
+if [ -z "${FLANG_PATH}" ]; then
     echo "this test is not run when not using --with-flang"
     # Exit with 77 to mark the test skipped
     # https://www.gnu.org/software/automake/manual/html_node/Scripts_002dbased-Testsuites.html
