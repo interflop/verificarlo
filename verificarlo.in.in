@@ -271,7 +271,7 @@ def compiler_mode(sources, options, output, args):
 
         if args.inst_func:
             # Apply function's instrumentation pass
-            if int(llvm_version) >= 13:
+            if 13 <= int(llvm_version) <= 17:
                 shell(
                     f"{opt} -S -enable-new-pm=0  -load {libvfcfuncinstrument} -vfclibfunc {ir.name} -o {ins.name}"
                 )

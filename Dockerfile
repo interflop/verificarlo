@@ -32,7 +32,7 @@ WORKDIR /build/
 ENV LIBRARY_PATH ${GCC_PATH}:$LIBRARY_PATH
 
 # Install other Python dependencies (not available with apt-get) via pip
-RUN ln -s /usr/bin/x86_64-linux-gnu-gcc-7 /usr/bin/x86_64-linux-gnu-gcc
+RUN ln -s /usr/bin/x86_64-linux-gnu-gcc-${GCC_VERSION} /usr/bin/x86_64-linux-gnu-gcc
 
 # Download and configure verificarlo from git master
 ENV AR=gcc-ar-${GCC_VERSION}

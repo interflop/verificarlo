@@ -80,14 +80,17 @@ jobs:
           - os: ubuntu:22.04
             llvm: 15
             gcc: 9
-          - os: ubuntu:23.10
+          - os: ubuntu:24.04
             llvm: 16
             gcc: 9
-            continue-on-error: true
-          - os: ubuntu:23.10
+          - os: ubuntu:24.04
             llvm: 17
             gcc: 9
-            continue-on-error: true
+            file: Dockerfile.ubuntu-24.04
+          - os: ubuntu:24.04
+            llvm: 18
+            gcc: 9
+            file: Dockerfile.ubuntu-24.04
     runs-on: ubuntu-22.04
     env:
       TEST_TAG: verificarlo/verificarlo:test-llvm-${{ matrix.llvm }}
@@ -102,6 +105,7 @@ jobs:
           context: .
           load: true
           tags: ${{ env.TEST_TAG }}
+          file: ${{ matrix.file || 'Dockerfile' }}
           build-args: |
             UBUNTU_VERSION=${{ matrix.os }}
             LLVM_VERSION=${{ matrix.llvm }}
