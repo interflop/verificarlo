@@ -368,6 +368,7 @@ void vfc_set_handlers(const char *token, void *handle) {
   set_handler("strtol", _vfc_strtol);
   set_handler("strtod", _vfc_strtod);
   set_handler("strcpy", strcpy);
+  set_handler("strncpy", strncpy);
   set_handler("fclose", fclose);
   set_handler("fgets", fgets);
   set_handler("strtok_r", strtok_r);
@@ -421,6 +422,7 @@ __attribute__((constructor(0))) static void vfc_init(void) {
   interflop_set_handler("strtol", _vfc_strtol);
   interflop_set_handler("strtod", _vfc_strtod);
   interflop_set_handler("strcpy", strcpy);
+  interflop_set_handler("strncpy", strncpy);
   interflop_set_handler("fclose", fclose);
   interflop_set_handler("fgets", fgets);
   interflop_set_handler("strtok_r", strtok_r);
