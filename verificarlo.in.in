@@ -50,7 +50,7 @@ C_EXTENSIONS = [".c"]
 CXX_EXTENSIONS = [".cc", ".cp", ".cpp", ".cxx", "c++"]
 ASSEMBLY_EXTENSIONS = [".s"]
 LLVM_BITCODE_EXTENSIONS = [".bc", ".ll"]
-COMPILE_EXTRA_FLAGS = "-ffp-contract=off"
+COMPILE_EXTRA_FLAGS = ""
 linkers = {"clang": clang, "flang": flang, "clang++": clangxx}
 default_linker = "clang"
 temp_files_set = set()
