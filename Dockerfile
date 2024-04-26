@@ -22,6 +22,7 @@ RUN apt-get -y install --no-install-recommends \
     bash ca-certificates make git libmpfr-dev \
     autogen dh-autoreconf autoconf automake autotools-dev libedit-dev libtool libz-dev binutils \
     clang-${LLVM_VERSION} llvm-${LLVM_VERSION} llvm-${LLVM_VERSION}-dev \
+    libomp5-${LLVM_VERSION} libomp-${LLVM_VERSION}-dev \
     gcc-${GCC_VERSION} g++-${GCC_VERSION} \
     gfortran-${GCC_VERSION} libgfortran-${GCC_VERSION}-dev ${WITH_FLANG} \
     python3 python3-pip python3-dev cython3 parallel && \
