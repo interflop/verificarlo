@@ -42,7 +42,7 @@ function test_perturbation() {
 
     rm -f out
     for i in {1..100}; do
-        ./test_${type} >>out
+        ./test_${type} 0.1 0.2 0.3 >>out
     done
 
     variability=$(python3 -c "import numpy as np; print(len(set((np.loadtxt('out')))) != 1)")
