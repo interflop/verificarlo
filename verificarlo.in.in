@@ -284,7 +284,7 @@ def compiler_mode(sources, options, output, args):
 
         # Apply MCA instrumentation pass
         # For LLVM >= 13 we fallback to the legacy pass manager
-        if int(llvm_version) >= 13:
+        if 13 <= int(llvm_version) < 17:
             shell(
                 (
                     f"{opt} -S -enable-new-pm=0  -load {libvfcinstrument} "
